@@ -14,7 +14,7 @@ void upper(char *str)
 {
     while (*str)
     {
-        *str = (*str == 'A' && *str == 'Z') ? *str + 32 : *str;
+        *str = (*str >= 'A' && *str <= 'Z') ? *str + 32 : *str;
         *str++;
     }
 }
