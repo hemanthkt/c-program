@@ -8,10 +8,10 @@ int oper(int (*f)(int, int), int num1, int num2);
 int main()
 {
     int (*fptr[])(int, int) = {add, sub, mul, div};
-    printf("add = %d\n", fptr[0](12, 4));
-    printf("sub = %d\n", fptr[1](12, 4));
-    printf("mul = %d\n", fptr[2](12, 4));
-    printf("div = %d\n", fptr[3](12, 4));
+    printf("add = %d\n", oper(fptr[0], 12, 4));
+    printf("sub = %d\n", oper(fptr[1], 12, 4));
+    printf("mul = %d\n", oper(fptr[2], 12, 4));
+    printf("div = %d\n", oper(fptr[3], 12, 4));
 }
 
 int oper(int (*f)(int, int), int num1, int num2)
