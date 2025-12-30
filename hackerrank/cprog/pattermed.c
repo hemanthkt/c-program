@@ -6,22 +6,27 @@
 int main()
 {
 
-    int n;
-    scanf("%d", &n);
-    // Complete the code to print the pattern.
-    for (int i = 1; i <= n; i++)
-    {
-        for (int j = 0; j < i; j++)
-        {
-            printf("%d ", n - j);
-        }
-        int k = n - i + 1;
-        for (int j = 0; j < n - i; j++)
-        {
-            printf("%d ", k);
-        }
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */
+    char str[1000];
+    scanf("%[^\n]", str);
 
-        printf("\n");
+    int freq[256];
+    for (int i = 0; i < 256; i++)
+    {
+        freq[i] = -1;
+    }
+    int i = 0;
+    while (str[i] != '\0')
+    {
+        freq[str[i]]++;
+        i++;
+    }
+    for (int j = 0; j < 256; j++)
+    {
+        if (freq[j] != -1)
+        {
+            printf("%d ", freq[j]);
+        }
     }
     return 0;
 }
