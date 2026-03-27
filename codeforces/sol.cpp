@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <vector>
 #include <math.h>
 #include <algorithm>
@@ -9,47 +9,40 @@ using namespace std;
 int main()
 {
     int t;
-    cin >> t;
+    cin >> t; // number of test cases
 
-    for (int i = 0; i < t; i++)
+    while (t--)
     {
-        int a, b;
-        cin >> a >> b;
-        int min1 = min(a, b);
-        int max1 = max(a, b);
-        int l = 0;
+        int n;
+        string s;
 
-        int n = 1;
-        int iter = 0;
-        while (true)
+        cin >> n; // length
+        cin >> s; // binary string
+
+        int fast = 2;
+        int slow = 0;
+        int ones = count(s.begin(), s.end(), '1');
+        int maxVal = ones;
+        int minVal = ones;
+
+        while (fast < n)
         {
-            if (iter % 2 != 0)
+            if (s[fast] == '1' && s[slow] == '1')
             {
-                min1 = min1 - n;
-                if (min1 >= 0)
+                if (s[fast - 1] == '0')
                 {
-                    l++;
+                    maxVal++;
                 }
-                iter++;
-            }
-            if (iter % 2 == 0)
-            {
-                max1 = max1 - n;
-                if (max1 >= 0)
+                else
                 {
-                    l++;
+                    minVal--;
                 }
-                iter++;
             }
-
-            if (max1 < 0 || min1 < 0)
-            {
-                break;
-            }
-
-            n = n * 2;
+            fast++;
+            slow++;
         }
-
-        cout << l << "\n";
+        cout << minVal << " " << maxVal << endl;
     }
+
+    return 0;
 }
