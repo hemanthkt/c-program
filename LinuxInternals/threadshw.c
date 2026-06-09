@@ -22,8 +22,8 @@ void *kitchen(void *arg)
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL); // default state
 
     // types
-    pthread_setcanceltype(PTHREAD_CANCEL_ASynchr, NULL);
-    pthread_setcanceltype(PTHREAD_CANCEL_deffers, NULL); // default type
+    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+    pthread_setcanceltype(PTHREAD_CANCEL_DEFFERED, NULL); // default type
 
     for (int i = 1; i <= 3 * ((struct input *)arg)->qty; i++, sleep(1))
     {

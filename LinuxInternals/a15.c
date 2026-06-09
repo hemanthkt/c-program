@@ -1,7 +1,9 @@
-#include <stdio.h>
+#define _XOPEN_SOURCE 700
 #include <unistd.h>
 #include <signal.h>
 #include <time.h>
+#include <stdio.h>
+#include <string.h>
 
 /*
 --> a.out 17:40:00 date is optional
@@ -82,5 +84,80 @@ int main(int argc, char *argv[])
         }
     */
 
-    signal(SIGINT, signalHandler);
+    signal(SIGALRM, signalHandler);
+
+    time_t curr_time = time(NULL);
+    struct tm var = *localtime(&curr_time);
+
+    strptime(argv[1], "%T", &var);
+    time_t user_time = mktime(&var);
+    time_t user_date;
+
+    // printf("Curr time %ld\n", curr_time);
+    // printf("User time %ld\n", user_time);
+
+    if (user_time < curr_time)
+    {
+        printf("Input time should be greater than Current time\n");
+        return 0;
+    }
+
+    if (argv[2])
+    {
+        strptime(argv[1], "%T", &var);
+        strptime(argv[2], "%D", &var);
+        user_time = mktime(&var);
+    }
+    else
+    {
+        strptime(argv[1], "%T", &var);
+        time_t c_time = time(NULL);
+        struct tm *ptr = localtime(&c_time);
+        var.tm_mday = ptr->tm_mday;
+        var.tm_mon = ptr->tm_mon;
+        var.tm_year = ptr->tm_year;
+        user_time = mktime(&var);
+    }
+
+    printf("Current time: %ld\n", curr_time);
+    printf("User time: %ld\n", user_time);
+
+    time_t t = user_time - curr_time;
+    alarm(t);
+    pause();
+    if (flag)
+    {
+        printf("ALARM ON\n");
+        flag = 0;
+    }
+
+    while (1)
+    {
+        printf("1.Snooze\n2.Stop\n");
+        int choice = 0;
+        scanf("%d", &choice);
+        if (choice == 1)
+        {
+            printf("Enter minutes: ");
+            curr_time = time(NULL);
+            int min = 0;
+            scanf("%d", &min);
+            user_time = user_time + (min * 60);
+            alarm(user_time - curr_time);
+            pause();
+            if (flag)
+            {
+                printf("ALARM ON\n");
+                flag = 0;
+            }
+        }
+        else if (choice == 2)
+        {
+            break;
+        }
+        else
+        {
+            printf("Wrong choice try again\n");
+        }
+    }
 }
