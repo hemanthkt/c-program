@@ -4,23 +4,22 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-int main()
+int main(int argc, char *argv[])
 {
-    int fd[2];
-    pipe(fd);
-    pid_t pid = fork();
+    if (argc != 2)
+    {
+        printf("Insufficient args");
+    }
 
+    int fd = open(argv[1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+
+    pid_t pid = fork();
     if (pid > 0)
     {
-        printf("--->befroe sleep\n");
-        sleep(6);
-        printf("--->after sleep\n");
+        lock_and_write(fd, 1);
     }
     else if (pid == 0)
     {
-        printf("Zombie processs\n");
-        int z = getpid();
-        printf("%d", z);
-        sleep(3);
+        lock_and_write(fd, 0);
     }
 }
